@@ -26,7 +26,7 @@ const PoetPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
       </Head>
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Poems of {poet}
+          Poems by {poet}
         </Typography>
         <List>
           {props.poems &&
