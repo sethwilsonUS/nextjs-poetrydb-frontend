@@ -6,7 +6,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import createEmotionCache from "../src/createEmotionCache";
 import { createTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import ButtonAppBar from "../components/navbar";
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -29,12 +28,10 @@ export default function MyApp(props: MyAppProps) {
 
   }, []);
 
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-
   // Create a theme instance.
   const theme = createTheme({
     palette: {
-      mode: prefersDarkMode ? "dark" : "light",
+      mode: "dark"
     },
   });
 

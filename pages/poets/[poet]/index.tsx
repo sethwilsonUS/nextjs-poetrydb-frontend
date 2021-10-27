@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { Subject } from "@mui/icons-material";
 import Link from "../../../components/Link";
+import { PoetsResponse } from "../../../types";
 
 const PoetPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
@@ -70,13 +71,8 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
   return { props: { poems } };
 };
 
-type Poet = string;
-type PoetryAuthorsResponse = {
-  authors: Poet[];
-};
-
 export const getStaticPaths = async () => {
-  const response = await axios.get<PoetryAuthorsResponse>(
+  const response = await axios.get<PoetsResponse>(
     "https://poetrydb.org/author"
   );
   const poets = response.data.authors;

@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { Adb } from "@mui/icons-material";
 import Link from "../../components/Link";
+import { PoetsResponse } from "../../types";
 
 const PoetsPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
@@ -44,13 +45,8 @@ const PoetsPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
   );
 };
 
-type Poet = string;
-type PoetryAuthorsResponse = {
-  authors: Poet[];
-};
-
 export const getStaticProps = async () => {
-  const response = await axios.get<PoetryAuthorsResponse>(
+  const response = await axios.get<PoetsResponse>(
     "https://poetrydb.org/author"
   );
   const poets = response.data.authors;
