@@ -25,7 +25,7 @@ const PoetsPage = (props: InferGetStaticPropsType<typeof getStaticProps>) => {
         <Typography variant="h4" component="h1" gutterBottom>
           Eminent Poets
         </Typography>
-        <p>Click on a poet's name to see a list of their available works.</p>
+        <p>Click on a poet&apos;s name to see a list of their available works.</p>
         <List>
           {props.poets.map((poet) => (
             <ListItem key={poet} disablePadding>

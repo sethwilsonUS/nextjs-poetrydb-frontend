@@ -22,6 +22,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
+    "lint": "next lint",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
   },
   "devDependencies": {
@@ -29,6 +30,8 @@
     "@types/nprogress": "^0.2.0",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "eslint": "^7.32.0",
+    "eslint-config-next": "12.0.1",
     "typescript": "latest"
   }
 }

@@ -7,6 +7,9 @@ import { Box, Container, Divider, Typography } from "@mui/material";
 const PoemPage = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
+
+  const router = useRouter();
+
   if (!props.poemText) {
     return (
       <Container maxWidth="sm">
@@ -19,7 +22,6 @@ const PoemPage = (
     );
   }
 
-  const router = useRouter();
   const { poet, poem } = router.query;
 
   return (
