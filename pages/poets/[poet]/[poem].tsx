@@ -7,13 +7,27 @@ import { Box, Container, Divider, Typography } from "@mui/material";
 const PoemPage = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
+  if (!props.poemText) {
+    return (
+      <Container maxWidth="sm">
+        <Box sx={{ my: 4 }}>
+          <Typography variant="h5" component="h1">
+            The horror! Something went wrong! Prithee try another poem.
+          </Typography>
+        </Box>
+      </Container>
+    );
+  }
+
   const router = useRouter();
   const { poet, poem } = router.query;
 
   return (
     <Container maxWidth="sm">
       <Head>
-        <title>{poem} by {poet}</title>
+        <title>
+          {poem} by {poet}
+        </title>
       </Head>
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
@@ -37,7 +51,7 @@ const PoemPage = (
   );
 };
 
-type PoemText = {
+type PoemEntry = {
   title: string;
   author: string;
   lines: string[];
@@ -48,17 +62,20 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   if (!context || !context.params) {
-    return { props: { error: "Something went wrong...", poemText: ["None"] } };
+    return { props: { poemText: null } };
   }
 
   const { poet, poem } = context.params;
 
-  const response = await axios.get<PoemText[]>(
-    `https://poetrydb.org/author,title/${poet};${poem}`
-  );
-  const poemText = response.data[0].lines;
-
-  return { props: { poemText } };
+  try {
+    const response = await axios.get<PoemEntry[]>(
+      `https://poetrydb.org/author,title/${poet};${poem}`
+    );
+    const poemText = response.data[0].lines;
+    return { props: { poemText } };
+  } catch (error) {
+    return { props: { poemText: null } };
+  }
 };
 
 export default PoemPage;

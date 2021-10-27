@@ -1,6 +1,5 @@
 import * as React from "react";
 import Head from "next/head";
-import Router from "next/router";
 import { AppProps } from "next/app";
 import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,7 +8,6 @@ import createEmotionCache from "../src/createEmotionCache";
 import { createTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import ButtonAppBar from "../components/navbar";
-import NProgress from "nprogress";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -18,12 +16,18 @@ interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
 
-Router.events.on("routeChangeStart", () => NProgress.start());
-Router.events.on("routeChangeComplete", () => NProgress.done());
-Router.events.on("routeChangeError", () => NProgress.done());
-
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+
+  React.useEffect(() => {
+
+    const jssStyles = document.querySelector('#jss-ssr');
+
+    if (jssStyles && jssStyles.parentElement) {
+        jssStyles.parentElement.removeChild(jssStyles);
+    }
+
+  }, []);
 
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
@@ -33,13 +37,6 @@ export default function MyApp(props: MyAppProps) {
       mode: prefersDarkMode ? "dark" : "light",
     },
   });
-
-  React.useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector("#jss-server-side");
-    if (jssStyles && jssStyles.parentNode)
-      jssStyles.parentNode.removeChild(jssStyles);
-  }, []);
 
   return (
     <CacheProvider value={emotionCache}>
